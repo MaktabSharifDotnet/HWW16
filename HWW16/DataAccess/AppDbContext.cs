@@ -19,8 +19,8 @@ namespace HWW16.DataAccess
         {
 
             optionsBuilder.UseSqlServer(
-                "Server = DESKTOP - M2BLLND\\SQLEXPRESS; Database = HWW16; Integrated Security = True; TrustServerCertificate = True; Encrypt = True;"
-                );
+              "Server=DESKTOP-M2BLLND\\SQLEXPRESS;Database=HWW16;Integrated Security=True;TrustServerCertificate=True;Encrypt=False;"
+              );
 
         }
     }

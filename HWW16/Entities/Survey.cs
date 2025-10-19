@@ -10,7 +10,11 @@ namespace HWW16.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public int CreatorUserId { get; set; }
+        public int CreatorUserId { get; set; } 
 
+     
+        public User CreatorUser { get; set; } 
+        public List<Question> Questions { get; set; } = []; 
+        public List<Vote> Votes { get; set; } = []; 
     }
 }
