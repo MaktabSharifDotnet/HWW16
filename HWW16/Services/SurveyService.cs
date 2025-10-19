@@ -47,7 +47,10 @@ namespace HWW16.Services
                 {
                     throw new Exception($"Question '{questionDto.Text}' must have exactly 4 options.");
                 }
-           
+                if (questionDto.Options.Any(optionText => string.IsNullOrWhiteSpace(optionText)))
+                {
+                    throw new Exception($"Options text for question '{questionDto.Text}' cannot be empty or just whitespace.");
+                }
                 if (!questionDto.Options.Any())
                 {
                     throw new Exception($"Options for question '{questionDto.Text}' cannot be empty.");
