@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,29 +26,9 @@ namespace HWW16.DataAccess
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder); 
+            base.OnModelCreating(modelBuilder);
 
-          
-            modelBuilder.Entity<Vote>()
-                .HasOne(v => v.Question) 
-                .WithMany(q => q.Votes) 
-                .HasForeignKey(v => v.QuestionId) 
-                .OnDelete(DeleteBehavior.Restrict); 
-
-         
-            modelBuilder.Entity<Vote>()
-                .HasOne(v => v.SelectedOption)
-                .WithMany(o => o.Votes)
-                .HasForeignKey(v => v.SelectedOptionId)
-                .OnDelete(DeleteBehavior.Restrict); 
-            
-            modelBuilder.Entity<Vote>()
-               .HasOne(v => v.Survey)
-               .WithMany(s => s.Votes)
-               .HasForeignKey(v => v.SurveyId)
-               .OnDelete(DeleteBehavior.Restrict); 
-
-          
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
 }
