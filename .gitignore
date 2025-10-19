@@ -1,0 +1,76 @@
+# User-specific files created by Visual Studio or other tools
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio specific cache/temporary files
+.vs/
+*.csproj.vspscc
+*.vssscc
+*.vspscc
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vsp
+*.vspx
+*.builds
+*.pidb
+*.svclog
+*.scc
+
+# Rider specific files (if you use JetBrains Rider)
+.idea/
+*.sln.iml
+
+# Backup files
+*.bak
+
+# Other common temporary files or generated code folders
+*.[Cc]ache
+ClientBin/
+[Ss]tyle[Cc]op.*
+~$*
+*.dbmdl
+Generated_Code/
+
+# Publishing artifacts
+*.publish.xml
+*.pubxml
+*.deploy!
+
+# Secrets files (should generally not be committed)
+secrets.json
+appsettings.Development.json
