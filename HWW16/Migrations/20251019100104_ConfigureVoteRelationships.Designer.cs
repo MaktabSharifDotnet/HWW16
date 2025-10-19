@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HWW16.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251019095454_2")]
-    partial class _2
+    [Migration("20251019100104_ConfigureVoteRelationships")]
+    partial class ConfigureVoteRelationships
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,19 +185,19 @@ namespace HWW16.Migrations
                     b.HasOne("HWW16.Entities.Question", "Question")
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Option", "SelectedOption")
                         .WithMany("Votes")
                         .HasForeignKey("SelectedOptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Survey", "Survey")
                         .WithMany("Votes")
                         .HasForeignKey("SurveyId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.User", "User")
