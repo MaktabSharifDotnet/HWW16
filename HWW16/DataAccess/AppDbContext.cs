@@ -40,7 +40,7 @@ namespace HWW16.DataAccess
                 .WithMany(o => o.Votes)
                 .HasForeignKey(v => v.SelectedOptionId)
                 .OnDelete(DeleteBehavior.Restrict); 
-
+            
             modelBuilder.Entity<Vote>()
                .HasOne(v => v.Survey)
                .WithMany(s => s.Votes)
