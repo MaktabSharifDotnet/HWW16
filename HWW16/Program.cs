@@ -1,4 +1,5 @@
 ﻿using HWW16.DataAccess;
+using HWW16.Dtos;
 using HWW16.Entities;
 using HWW16.Enums;
 using HWW16.Infra;
@@ -89,10 +90,88 @@ while (true)
 
                             }
                             Console.WriteLine("Press any key to return to the admin menu...");
-                            Console.ReadKey(); 
-                            Console.Clear();   
-                            break; 
+                            Console.ReadKey();
+                            Console.Clear();
+                            break;
+                        case 2:
+                            ShowSurveys();
+                            Console.WriteLine("please enter surveyId");
+                            try
+                            {
+                                int surveyId = int.Parse(Console.ReadLine()!);
+                                surveyService.DeleteSurvey(surveyId);
+                                Console.WriteLine("delete is done");
+                            }
+                            catch (FormatException)
+                            {
+                                Console.WriteLine("invalid surveyId");
+
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+
+                            break;
+                        case 3:
+                            Console.Clear(); 
+                            Console.WriteLine("--- View Survey Results ---");
+                            ShowSurveys(); 
+                            Console.Write("Enter the ID of the survey you want to view results for: "); 
+                            try
+                            {
+                                int surveyId = int.Parse(Console.ReadLine()!); 
+
+                               
+                                SurveyResultsDto surveyResultsDto = surveyService.GetSurveyResults(surveyId);
+                                Console.Clear(); 
+                                Console.WriteLine($"--- Results for Survey: '{surveyResultsDto.Title}' ---");
+                                Console.WriteLine($"Total Participants: {surveyResultsDto.TotalNumberOfParticipants}");
+
+                                if (surveyResultsDto.TotalNumberOfParticipants > 0)
+                                {
+                                    Console.WriteLine("Participants:");
+                                    foreach (var name in surveyResultsDto.ParticipantNames)
+                                    {
+                                        Console.WriteLine($"- {name}"); 
+                                    }
+
+                                    Console.WriteLine("\n--- Question Results ---");
+                                    foreach (var questionResult in surveyResultsDto.QuestionResults)
+                                    {
+                                        Console.WriteLine($"\nQuestion: {questionResult.Text}"); 
+                                        foreach (var optionResult in questionResult.OptionResults)
+                                        {
+                                            
+                                            Console.WriteLine($"- {optionResult.Text}: {optionResult.VoteCount} votes ({optionResult.VotePercentage}%)");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("No votes have been cast for this survey yet."); 
+                                }
                             
+
+                            }
+                            catch (FormatException) 
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Invalid input. Please enter a number for the Survey ID.");
+                                Console.ResetColor();
+                            }
+                            catch (Exception ex) 
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine($"Error: {ex.Message}");
+                                Console.ResetColor();
+                            }
+
+                            
+                            Console.WriteLine("\nPress any key to return to the admin menu...");
+                            Console.ReadKey();
+                            Console.Clear();
+                            break; 
                     }
                 }
                 catch (FormatException)
@@ -113,4 +192,14 @@ void ShowMenuAdmin()
 {
     Console.WriteLine("please enter option");
     Console.WriteLine("1.Add survey");
+    Console.WriteLine("2.Delete survey");
+    Console.WriteLine("3.View survey results");
+}
+void ShowSurveys()
+{
+    List<Survey> surveys = surveyService.GetSurveys();
+    foreach (var survey in surveys)
+    {
+        Console.WriteLine($"id:{survey.Id} , title:{survey.Title}");
+    }
 }

@@ -25,6 +25,11 @@ namespace HWW16.DataAccess.Configurations
             builder.HasOne(v => v.Survey)
                    .WithMany(s => s.Votes)
                    .HasForeignKey(v => v.SurveyId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(v => v.User) 
+                   .WithMany(u => u.Votes) 
+                   .HasForeignKey(v => v.UserId) 
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
