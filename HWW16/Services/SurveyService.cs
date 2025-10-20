@@ -80,7 +80,6 @@ namespace HWW16.Services
             }
             _surveyRepository.Add(survey);
         }
-
         public void DeleteSurvey(int surveyId)
         {
             if (LocalStorage.LoginUser == null)
@@ -96,11 +95,19 @@ namespace HWW16.Services
             {
                 throw new Exception("There is no Survey with this ID.");
             }
-            if (!surveyDb.Votes.Any())
+           
+            if (surveyDb.Votes.Any()) 
             {
-                throw new Exception("Nobody voted.");
+              
+                _surveyRepository.Delete(surveyDb);
+                
             }
-            _surveyRepository.Delete(surveyDb);
+            else
+            {
+               
+                throw new Exception("Cannot delete survey because no one has voted yet."); 
+            }
+            
         }
         public List<Survey> GetSurveys()
         {

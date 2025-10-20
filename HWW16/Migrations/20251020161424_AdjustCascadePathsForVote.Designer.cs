@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HWW16.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251020083808_AdjustCascadePathsForVote")]
+    [Migration("20251020161424_AdjustCascadePathsForVote")]
     partial class AdjustCascadePathsForVote
     {
         /// <inheritdoc />
@@ -44,6 +44,80 @@ namespace HWW16.Migrations
                     b.HasIndex("QuestionId");
 
                     b.ToTable("Options");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            QuestionId = 1,
+                            Text = "Completely satisfied"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            QuestionId = 1,
+                            Text = "Satisfied"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            QuestionId = 1,
+                            Text = "No opinion"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            QuestionId = 1,
+                            Text = "Dissatisfied"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            QuestionId = 2,
+                            Text = "Completely satisfied"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            QuestionId = 2,
+                            Text = "Satisfied"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            QuestionId = 2,
+                            Text = "No opinion"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            QuestionId = 2,
+                            Text = "Dissatisfied"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            QuestionId = 3,
+                            Text = "C#"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            QuestionId = 3,
+                            Text = "Java"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            QuestionId = 3,
+                            Text = "Python"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            QuestionId = 3,
+                            Text = "PHP"
+                        });
                 });
 
             modelBuilder.Entity("HWW16.Entities.Question", b =>
@@ -66,6 +140,26 @@ namespace HWW16.Migrations
                     b.HasIndex("SurveyId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SurveyId = 1,
+                            Text = "Are you satisfied with the quality of the course content?"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SurveyId = 1,
+                            Text = "Are you satisfied with the professor's teaching style?"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            SurveyId = 2,
+                            Text = "Which backend language do you prefer?"
+                        });
                 });
 
             modelBuilder.Entity("HWW16.Entities.Survey", b =>
@@ -88,6 +182,20 @@ namespace HWW16.Migrations
                     b.HasIndex("CreatorUserId");
 
                     b.ToTable("Surveys");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatorUserId = 1,
+                            Title = "Bootcamp satisfaction level"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatorUserId = 1,
+                            Title = "Favorite programming language"
+                        });
                 });
 
             modelBuilder.Entity("HWW16.Entities.User", b =>
