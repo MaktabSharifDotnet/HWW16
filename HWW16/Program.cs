@@ -171,7 +171,10 @@ while (true)
                             Console.WriteLine("\nPress any key to return to the admin menu...");
                             Console.ReadKey();
                             Console.Clear();
-                            break; 
+                            break;
+                        case 4:
+                            LocalStorage.Logout();
+                            break;
                     }
                 }
                 catch (FormatException)
@@ -180,10 +183,44 @@ while (true)
                 }
 
                 break;
-
             case RoleEnum.NormalUser:
-
+                ShowMenuNormalUser();
+                ShowMenuNormalUser();
+                try
+                {
+                    int userOption = int.Parse(Console.ReadLine()!); /
+                    switch (userOption)
+                    {
+                        case 1: 
+                            Console.Clear();
+                            Console.WriteLine("--- Available Surveys ---");
+                            ShowSurveys(); 
+                            Console.WriteLine("\nPress any key to return to the menu...");
+                            Console.ReadKey();
+                            Console.Clear();
+                            break;
+                        case 0: 
+                            LocalStorage.Logout(); 
+                            Console.Clear();
+                            Console.WriteLine("You have been logged out.");
+                            break;
+                        default: 
+                            Console.WriteLine("Invalid option. Please try again.");
+                            Console.ReadKey();
+                            Console.Clear();
+                            break;
+                    }
+                }
+                catch (FormatException) 
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please enter a number.");
+                    Console.ResetColor();
+                    Console.ReadKey();
+                    Console.Clear();
+                }
                 break;
+               
         }
     }
 }
@@ -194,6 +231,7 @@ void ShowMenuAdmin()
     Console.WriteLine("1.Add survey");
     Console.WriteLine("2.Delete survey");
     Console.WriteLine("3.View survey results");
+    Console.WriteLine("4.logout");
 }
 void ShowSurveys()
 {
@@ -202,4 +240,11 @@ void ShowSurveys()
     {
         Console.WriteLine($"id:{survey.Id} , title:{survey.Title}");
     }
+}
+
+void ShowMenuNormalUser()
+{
+    Console.WriteLine("\n--- User Menu ---"); 
+    Console.WriteLine("Please enter an option:");
+    Console.WriteLine("0. Logout");
 }
