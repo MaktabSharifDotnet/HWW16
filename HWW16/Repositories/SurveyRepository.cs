@@ -47,5 +47,11 @@ namespace HWW16.Repositories
                     .ThenInclude(v => v.User) 
                 .FirstOrDefault(s => s.Id == id); 
         }
+
+        public Survey? GetSurveyWithQuestionsWithOptions(int surveyId)
+        {
+            return _context.Surveys.Include(s=>s.Questions).ThenInclude(q=>q.Options)
+                .FirstOrDefault(s=>s.Id==surveyId);
+        }
     }
 }

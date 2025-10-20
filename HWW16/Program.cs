@@ -201,12 +201,10 @@ while (true)
                             Console.Clear();
                             break;
                         case 2:
-
-
-
-
-
-                          break;
+                            Console.WriteLine("--- Available Surveys ---");
+                            ShowSurveys();
+                            ParticipateInSurvey();
+                            break;
                         case 0: 
                             LocalStorage.Logout(); 
                             Console.Clear();
@@ -257,4 +255,48 @@ void ShowMenuNormalUser()
     Console.WriteLine("1. View available surveys");
     Console.WriteLine("2. Participate in a survey");
     Console.WriteLine("0. Logout");
+}
+
+void ParticipateInSurvey() 
+{
+    Console.WriteLine("Type the desired survey ID.");
+    try
+    {
+        int surveyId = int.Parse(Console.ReadLine()!);
+        Survey? survey = surveyService.GetSurveyForVoting(surveyId);
+        List<AnswerDto> myAnswers = new List<AnswerDto>();
+        foreach (var question in survey.Questions)
+        {
+            Console.WriteLine($"id:{question.Id}.{question.Text}");
+
+            foreach (var option in question.Options)
+            {
+                Console.WriteLine($"id:{option.Id}.{option.Text}");
+
+            }
+            Console.WriteLine("please enter optionId");
+            int optionId = int.Parse(Console.ReadLine()!);
+            var answer = new AnswerDto
+            {
+                QuestionId = question.Id,
+                SelectedOptionId = optionId,
+            };
+            myAnswers.Add(answer);
+        }
+        var voteInfo = new CastVoteDto
+        {
+            SurveyId = surveyId,
+            Answers = myAnswers
+        };
+        voteService.CastVote(voteInfo);
+        Console.WriteLine("Your vote was successfully registered!");
+    }
+    catch (FormatException)
+    {
+        Console.WriteLine("invalid survey ID");
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
 }

@@ -196,6 +196,22 @@ namespace HWW16.Services
             }
             return surveyResultDto;
         }
+
+        public Survey? GetSurveyForVoting(int surveyId)
+        {
+            
+            var survey = _surveyRepository.GetSurveyWithQuestionsWithOptions(surveyId);
+
+     
+            if (survey == null)
+            {
+               
+                throw new Exception($"Survey with ID {surveyId} not found.");
+            }
+
+            
+            return survey;
+        }
     }
 
 }
