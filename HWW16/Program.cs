@@ -10,6 +10,8 @@ UserRepository userRepository = new UserRepository(appDbContext);
 UserService userService = new UserService(userRepository);
 SurveyRepository surveyRepository = new SurveyRepository(appDbContext);
 SurveyService surveyService = new SurveyService(surveyRepository);
+VoteRepository voteRepository = new VoteRepository(appDbContext);
+VoteService voteService = new VoteService(voteRepository, surveyRepository);
 while (true)
 {
     if (LocalStorage.LoginUser == null)
@@ -185,10 +187,9 @@ while (true)
                 break;
             case RoleEnum.NormalUser:
                 ShowMenuNormalUser();
-                ShowMenuNormalUser();
                 try
                 {
-                    int userOption = int.Parse(Console.ReadLine()!); /
+                    int userOption = int.Parse(Console.ReadLine()!); 
                     switch (userOption)
                     {
                         case 1: 
@@ -199,6 +200,13 @@ while (true)
                             Console.ReadKey();
                             Console.Clear();
                             break;
+                        case 2:
+
+
+
+
+
+                          break;
                         case 0: 
                             LocalStorage.Logout(); 
                             Console.Clear();
@@ -244,7 +252,9 @@ void ShowSurveys()
 
 void ShowMenuNormalUser()
 {
-    Console.WriteLine("\n--- User Menu ---"); 
+    Console.WriteLine("\n--- User Menu ---");
     Console.WriteLine("Please enter an option:");
+    Console.WriteLine("1. View available surveys");
+    Console.WriteLine("2. Participate in a survey");
     Console.WriteLine("0. Logout");
 }
