@@ -191,7 +191,8 @@ namespace HWW16.Services
                         VotePercentage = Math.Round(votePercentage, 2)
                     });
                 }
-                
+                questionResultDto.OptionResults = questionResultDto.OptionResults.OrderByDescending(v => v.VoteCount).ToList();
+
                 surveyResultDto.QuestionResults.Add(questionResultDto);
             }
             return surveyResultDto;
