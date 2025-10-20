@@ -51,10 +51,7 @@ namespace HWW16.Services
                 {
                     throw new Exception($"Options text for question '{questionDto.Text}' cannot be empty or just whitespace.");
                 }
-                if (!questionDto.Options.Any())
-                {
-                    throw new Exception($"Options for question '{questionDto.Text}' cannot be empty.");
-                }
+              
             }
             var survey = new Survey
             {
