@@ -2,10 +2,12 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace HWW16.Migrations
 {
     /// <inheritdoc />
-    public partial class ConfigureVoteRelationships : Migration
+    public partial class RebuildModelFromConfigurations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -103,26 +105,71 @@ namespace HWW16.Migrations
                         name: "FK_Votes_Options_SelectedOptionId",
                         column: x => x.SelectedOptionId,
                         principalTable: "Options",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Votes_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Votes_Surveys_SurveyId",
                         column: x => x.SurveyId,
                         principalTable: "Surveys",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Votes_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Password", "Role", "Username" },
+                values: new object[,]
+                {
+                    { 1, "123", 1, "admin" },
+                    { 2, "123", 2, "user1" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Surveys",
+                columns: new[] { "Id", "CreatorUserId", "Title" },
+                values: new object[,]
+                {
+                    { 1, 1, "Bootcamp satisfaction level" },
+                    { 2, 1, "Favorite programming language" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Questions",
+                columns: new[] { "Id", "SurveyId", "Text" },
+                values: new object[,]
+                {
+                    { 1, 1, "Are you satisfied with the quality of the course content?" },
+                    { 2, 1, "Are you satisfied with the professor's teaching style?" },
+                    { 3, 2, "Which backend language do you prefer?" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Options",
+                columns: new[] { "Id", "QuestionId", "Text" },
+                values: new object[,]
+                {
+                    { 1, 1, "Completely satisfied" },
+                    { 2, 1, "Satisfied" },
+                    { 3, 1, "No opinion" },
+                    { 4, 1, "Dissatisfied" },
+                    { 5, 2, "Completely satisfied" },
+                    { 6, 2, "Satisfied" },
+                    { 7, 2, "No opinion" },
+                    { 8, 2, "Dissatisfied" },
+                    { 9, 3, "C#" },
+                    { 10, 3, "Java" },
+                    { 11, 3, "Python" },
+                    { 12, 3, "PHP" }
                 });
 
             migrationBuilder.CreateIndex(

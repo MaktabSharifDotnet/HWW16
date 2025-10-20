@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HWW16.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251020161424_AdjustCascadePathsForVote")]
-    partial class AdjustCascadePathsForVote
+    [Migration("20251020164629_RebuildModelFromConfigurations")]
+    partial class RebuildModelFromConfigurations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,13 +309,13 @@ namespace HWW16.Migrations
                     b.HasOne("HWW16.Entities.Question", "Question")
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Option", "SelectedOption")
                         .WithMany("Votes")
                         .HasForeignKey("SelectedOptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Survey", "Survey")

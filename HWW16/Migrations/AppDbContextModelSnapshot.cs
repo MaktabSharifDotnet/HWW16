@@ -306,13 +306,13 @@ namespace HWW16.Migrations
                     b.HasOne("HWW16.Entities.Question", "Question")
                         .WithMany("Votes")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Option", "SelectedOption")
                         .WithMany("Votes")
                         .HasForeignKey("SelectedOptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("HWW16.Entities.Survey", "Survey")

@@ -24,7 +24,7 @@ namespace HWW16.Repositories
         }
         public Survey? GetSurveyById(int id) 
         {
-           return _context.Surveys.FirstOrDefault(s => s.Id == id);    
+           return _context.Surveys.Include(s => s.Votes).FirstOrDefault(s => s.Id == id);    
         }
         public void Delete(Survey survey)
         {
