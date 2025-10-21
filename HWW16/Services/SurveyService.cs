@@ -125,25 +125,20 @@ namespace HWW16.Services
             }
 
             Survey? survey = _surveyRepository.GetSurveyWithResultsById(surveyId);
-
-           
             if (survey == null)
             {
                 throw new Exception($"Survey with ID {surveyId} not found.");
             }
-
-            
             var surveyResultDto = new SurveyResultsDto
             {
                 Title = survey.Title,
                 QuestionResults = new List<QuestionResultDto>(),
                 ParticipantNames = new List<string>()
             };
-            var allVotesForSurvey = survey.Votes;
-            if (allVotesForSurvey != null && allVotesForSurvey.Any())
+            if (survey.Votes != null && survey.Votes.Any())
             {
 
-                surveyResultDto.ParticipantNames = allVotesForSurvey
+                surveyResultDto.ParticipantNames = survey.Votes
                                                 .GroupBy(v => v.UserId) 
                                                 .Select(g => g.First().User.Username) 
                                                 .ToList(); 
@@ -161,7 +156,7 @@ namespace HWW16.Services
                     OptionResults = new List<OptionResultDto>() 
                 };
                 
-                var filteredVotes = allVotesForSurvey?.Where(v => v.QuestionId == question.Id).ToList(); 
+                var filteredVotes = survey.Votes?.Where(v => v.QuestionId == question.Id).ToList(); 
 
                 List<Vote> votesForQuestion; 
 
