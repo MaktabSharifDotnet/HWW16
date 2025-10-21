@@ -8,12 +8,12 @@ public class VoteConfiguration : IEntityTypeConfiguration<Vote>
         builder.HasOne(v => v.Question)
                .WithMany(q => q.Votes)
                .HasForeignKey(v => v.QuestionId)
-               .OnDelete(DeleteBehavior.NoAction); 
+               .OnDelete(DeleteBehavior.ClientSetNull); 
 
         builder.HasOne(v => v.SelectedOption)
                .WithMany(o => o.Votes)
                .HasForeignKey(v => v.SelectedOptionId)
-               .OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.ClientSetNull);
 
         builder.HasOne(v => v.Survey)
                .WithMany(s => s.Votes)
