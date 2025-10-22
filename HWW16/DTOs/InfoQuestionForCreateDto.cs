@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HWW16.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace HWW16.DTOs
     public class InfoQuestionForCreateDto
     {
         public string Text { get; set; }
-        public List<string> Options { get; set; }
+        public List<string> OptionTexts { get; set; }
     }
 }

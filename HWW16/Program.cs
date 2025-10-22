@@ -11,6 +11,7 @@ UserService userService = new UserService(userRepository);
 SurveyRepository surveyRepository = new SurveyRepository(appDbContext);
 SurveyService surveyService = new SurveyService(surveyRepository);
 
+
 while (true)
 {
     if (LocalStorage.LoginUser == null)
@@ -46,29 +47,25 @@ while (true)
                         case 1:
                             Console.WriteLine("Tite:");
                             string title = Console.ReadLine()!;
+                            InfoSurveyForCreateDto infoSurveyForCreateDto = new InfoSurveyForCreateDto();
+                            infoSurveyForCreateDto.Title = title;
                             Console.WriteLine("please enter number Of question ");
                             int count = int.Parse(Console.ReadLine()!);
-                            Survey survey = new Survey();
-                            survey.Title = title;
-                            survey.CreatorUser = LocalStorage.LoginUser;
                             for (int i = 0; i < count; i++)
                             {
                                 Console.WriteLine($"pleae enter questionText {i+1}:"); 
-                                string questionText = Console.ReadLine()!;   
-                                Question question = new Question();
-                                question.Text = questionText;
-                                for (int j = 0; j < 4; j++)
+                                string questionText = Console.ReadLine()!;
+                                InfoQuestionForCreateDto infoQuestionForCreateDto = new InfoQuestionForCreateDto();
+                                infoQuestionForCreateDto.Text = questionText;
+                                for (int j =0 ; j<4 ; j++) 
                                 {
-                                    Option option = new Option();
-                                    Console.WriteLine($"pleae enter optionText {j + 1}:");
+                                    Console.WriteLine($"pleae enter optionText {j+1}");
                                     string optionText = Console.ReadLine()!;
-                                    option.Text = optionText;
-                                    question.Options.Add(option);
+                                    infoQuestionForCreateDto.OptionTexts.Add(optionText);
                                 }
-                                
-                                survey.Questions.Add( question );
+                                infoSurveyForCreateDto.Questions.Add(infoQuestionForCreateDto);
                             }
-                            surveyRepository.AddSurvey(survey);
+                            surveyService.AddSurvey(infoSurveyForCreateDto);
                             break;
                         case 0:
                             LocalStorage.Logout();
