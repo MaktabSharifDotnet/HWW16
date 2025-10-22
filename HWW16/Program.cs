@@ -116,64 +116,7 @@ while (true)
 
                             break;
                         case 3:
-                            Console.Clear();
-                            Console.WriteLine("--- View Survey Results ---");
-                            ShowSurveys();
-                            Console.Write("Enter the ID of the survey you want to view results for: ");
-                            try
-                            {
-                                int surveyId = int.Parse(Console.ReadLine()!);
-
-
-                                SurveyResultsDto surveyResultsDto = surveyService.GetSurveyResults(surveyId);
-                                Console.Clear();
-                                Console.WriteLine($"--- Results for Survey: '{surveyResultsDto.Title}' ---");
-                                Console.WriteLine($"Total Participants: {surveyResultsDto.TotalNumberOfParticipants}");
-
-                                if (surveyResultsDto.TotalNumberOfParticipants > 0)
-                                {
-                                    Console.WriteLine("Participants:");
-                                    foreach (var name in surveyResultsDto.ParticipantNames)
-                                    {
-                                        Console.WriteLine($"- {name}");
-                                    }
-
-                                    Console.WriteLine("\n--- Question Results ---");
-                                    foreach (var questionResult in surveyResultsDto.QuestionResults)
-                                    {
-                                        Console.WriteLine($"\nQuestion: {questionResult.Text}");
-                                        foreach (var optionResult in questionResult.OptionResults)
-                                        {
-
-                                            Console.WriteLine($"- {optionResult.Text}: {optionResult.VoteCount} votes ({optionResult.VotePercentage}%)");
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    Console.WriteLine("No votes have been cast for this survey yet.");
-                                }
-
-
-                            }
-                            catch (FormatException)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine("Invalid input. Please enter a number for the Survey ID.");
-                                Console.ResetColor();
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Red;
-                                Console.WriteLine($"Error: {ex.Message}");
-                                Console.ResetColor();
-                            }
-
-
-                            Console.WriteLine("\nPress any key to return to the admin menu...");
-                            Console.ReadKey();
-                            Console.Clear();
-                            break;
+                            
                         case 4:
                             LocalStorage.Logout();
                             break;
