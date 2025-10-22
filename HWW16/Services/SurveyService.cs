@@ -18,65 +18,58 @@ namespace HWW16.Services
         {
             _surveyRepository = surveyRepository;
         }
-        public void AddSurvey(CreateSurveyDto createSurvey) 
+        public void AddSurvey(string titleSurvey, List<string> questionTexts, List<string> optionTexts)
         {
-            if (LocalStorage.LoginUser==null)
+            if (LocalStorage.LoginUser == null)
             {
                 throw new Exception("User is not logged in.");
             }
-            if (LocalStorage.LoginUser.Role!=RoleEnum.Admin)
+            if (LocalStorage.LoginUser.Role != RoleEnum.Admin)
             {
                 throw new Exception("Only Admin users can create surveys.");
             }
-            if (string.IsNullOrWhiteSpace(createSurvey.Title))
+            if (string.IsNullOrWhiteSpace(titleSurvey))
             {
                 throw new Exception("Survey title cannot be empty.");
             }
-            if (!createSurvey.Questions.Any())
+            foreach (var questionText in questionTexts)
             {
-                throw new Exception("Survey must have at least one question.");
-            }
-            foreach (var questionDto in createSurvey.Questions)
-            {
-                if (string.IsNullOrWhiteSpace(questionDto.Text))
+                if (string.IsNullOrWhiteSpace(questionText))
                 {
                     throw new Exception("Question text cannot be empty.");
                 }
-               
-                if (questionDto.Options.Count != 4)
-                {
-                    throw new Exception($"Question '{questionDto.Text}' must have exactly 4 options.");
-                }
-                if (questionDto.Options.Any(optionText => string.IsNullOrWhiteSpace(optionText)))
-                {
-                    throw new Exception($"Options text for question '{questionDto.Text}' cannot be empty or just whitespace.");
-                }
-              
+
             }
-            var survey = new Survey
+            foreach (var optionText in optionTexts)
             {
-                Title = createSurvey.Title,
-                CreatorUserId = LocalStorage.LoginUser.Id,
+                if (string.IsNullOrWhiteSpace(optionText))
+                {
+                    throw new Exception("option text cannot be empty.");
+                }
+            }
+
+            Survey survey = new Survey()
+            {
+                Title = titleSurvey,
+                CreatorUserId = LocalStorage.LoginUser.Id
             };
-            foreach (var questionDto in createSurvey.Questions)
+
+            List<Question> questions = new List<Question>();
+            List<Option> options = new List<Option>();
+            for (int i = 0; i < questionTexts.Count - 1; i++)
             {
-                var question = new Question
+                questions[i].Text = questionTexts[i];
+                questions[i].SurveyId = survey.Id;
+                for (int j = 0; j < 4; j++)
                 {
-                    Text = questionDto.Text,
-                    Survey = survey, 
-                };
-                foreach (var optionText in questionDto.Options)
-                {
-                    var option = new Option
-                    {
-                        Text = optionText,
-                        Question = question 
-                    };
-                    question.Options.Add(option); 
+                    options[j].Text = optionTexts[j];
+                    options[j].QuestionId = questions[i].Id;   
                 }
-                survey.Questions.Add(question); 
             }
-            _surveyRepository.Add(survey);
+
+            survey.Questions = questions;
+            _surveyRepository.AddSurvey(survey);
+
         }
     }
 }

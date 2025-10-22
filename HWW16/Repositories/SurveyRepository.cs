@@ -16,7 +16,7 @@ namespace HWW16.Repositories
         {
             _context = context;
         }
-        public void Add(Survey survey)
+        public void AddSurvey(Survey survey)
         {
             _context.Surveys.Add(survey); 
             _context.SaveChanges();     
