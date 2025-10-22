@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HWW16.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251019132928_SeedInitialUsers")]
-    partial class SeedInitialUsers
+    [Migration("20251022141716_test01")]
+    partial class test01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

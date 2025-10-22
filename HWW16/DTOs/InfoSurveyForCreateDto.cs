@@ -11,6 +11,6 @@ namespace HWW16.DTOs
     {
         public string Title { get; set; }
         public List<InfoQuestionForCreateDto> Questions { get; set; } = [];
-       
+
     }
 }

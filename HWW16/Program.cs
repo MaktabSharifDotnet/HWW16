@@ -45,21 +45,21 @@ while (true)
                     switch (option1) 
                     {
                         case 1:
-                            Console.WriteLine("Tite:");
-                            string title = Console.ReadLine()!;
-                            InfoSurveyForCreateDto infoSurveyForCreateDto = new InfoSurveyForCreateDto();
-                            infoSurveyForCreateDto.Title = title;
-                            Console.WriteLine("please enter number Of question ");
-                            int count = int.Parse(Console.ReadLine()!);
-                            for (int i = 0; i < count; i++)
+                            InfoSurveyForCreateDto  infoSurveyForCreateDto = new InfoSurveyForCreateDto();
+                            Console.WriteLine("Title:");
+                            string surveyTitle = Console.ReadLine()!;
+                            infoSurveyForCreateDto.Title = surveyTitle;
+                            Console.WriteLine("please enter number of question");
+                            int questionCount = int.Parse(Console.ReadLine()!);
+                            for (int i = 0; i < questionCount; i++)
                             {
-                                Console.WriteLine($"pleae enter questionText {i+1}:"); 
-                                string questionText = Console.ReadLine()!;
                                 InfoQuestionForCreateDto infoQuestionForCreateDto = new InfoQuestionForCreateDto();
+                                Console.WriteLine($"please enter questionText{i+1}");
+                                string questionText = Console.ReadLine()!;
                                 infoQuestionForCreateDto.Text = questionText;
-                                for (int j =0 ; j<4 ; j++) 
+                                for (int j = 0; j < 4; j++)
                                 {
-                                    Console.WriteLine($"pleae enter optionText {j+1}");
+                                    Console.WriteLine($"please enter optionText{j+1}");
                                     string optionText = Console.ReadLine()!;
                                     infoQuestionForCreateDto.OptionTexts.Add(optionText);
                                 }
