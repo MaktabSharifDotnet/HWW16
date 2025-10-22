@@ -40,13 +40,37 @@ while (true)
                 ShowMenuAdmin();
                 try 
                 {
-                    int option = int.Parse(Console.ReadLine()!);
-                    switch (option) 
+                    int option1 = int.Parse(Console.ReadLine()!);
+                    switch (option1) 
                     {
                         case 1:
-
-                            CreateInfoSurveyDto createInfoSurveyDto = CreateInfoSurvey();
-                            surveyService.AddSurvey(createInfoSurveyDto.Title , createInfoSurveyDto.OptionTexts , createInfoSurveyDto.OptionTexts);
+                            Console.WriteLine("Tite:");
+                            string title = Console.ReadLine()!;
+                            Console.WriteLine("please enter number Of question ");
+                            int count = int.Parse(Console.ReadLine()!);
+                            Survey survey = new Survey();
+                            survey.Title = title;
+                            survey.CreatorUser = LocalStorage.LoginUser;
+                            for (int i = 0; i < count; i++)
+                            {
+                                Console.WriteLine($"pleae enter questionText {i+1}:"); 
+                                string questionText = Console.ReadLine()!;
+                                InfoQuestionForCreateDto infoQuestionForCreateDto = new InfoQuestionForCreateDto();
+                                infoQuestionForCreateDto.Text = questionText;
+                                Option option = new Option();
+                                Question question = new Question();
+                             
+                                for (int j = 0; j < 4; j++)
+                                {
+                                    Console.WriteLine($"pleae enter optionText {j + 1}:");
+                                    string optionText = Console.ReadLine()!;
+                                    option.Text = optionText;
+                                    option.QuestionId = question.Id;
+                                }
+                                question.Options.Add( option );
+                                survey.Questions.Add( question );
+                            }
+                            surveyRepository.AddSurvey(survey);
                             break;
                         case 0:
                             LocalStorage.Logout();
@@ -76,32 +100,4 @@ void ShowMenuAdmin()
     Console.WriteLine("please enter option");
     Console.WriteLine("1.Add survey");
     Console.WriteLine("0.LogOut");
-}
-CreateInfoSurveyDto CreateInfoSurvey() 
-{
-    Console.WriteLine("please enter Survey Title");
-    string title = Console.ReadLine()!;
-    Console.WriteLine("please enter number of question");
-    int questionCount = int.Parse(Console.ReadLine()!);
-    List<string> questionTexts = new List<string>();
-    for (int i = 0; i < questionCount - 1; i++)
-    {
-        Console.WriteLine($"please enter question{i + 1}:");
-        string questionText = Console.ReadLine()!;
-        questionTexts.Add(questionText);
-    }
-    List<string> optionTesxts = new List<string>();
-    for (int i = 0; i < 4; i++)
-    {
-        Console.WriteLine($"please enter option{i + 1}:");
-        string optionText = Console.ReadLine()!;
-        optionTesxts.Add(optionText);
-    }
-    CreateInfoSurveyDto createInfoSurveyDto = new CreateInfoSurveyDto() 
-    {
-        Title = title,
-        QuestionTexts = questionTexts,
-        OptionTexts = optionTesxts
-    };
-    return createInfoSurveyDto;
 }

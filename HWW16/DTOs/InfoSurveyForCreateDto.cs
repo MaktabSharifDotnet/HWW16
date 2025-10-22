@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace HWW16.DTOs
 {
-    public class CreateInfoQuestion
+    public class InfoSurveyForCreateDto
     {
-        public string Text { get; set; }
-        public List<Option> Options { get; set; }
+        public string Title  { get; set; }
+        public List<Question> Questions { get; set; }
     }
 }
