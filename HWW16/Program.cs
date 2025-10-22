@@ -54,20 +54,18 @@ while (true)
                             for (int i = 0; i < count; i++)
                             {
                                 Console.WriteLine($"pleae enter questionText {i+1}:"); 
-                                string questionText = Console.ReadLine()!;
-                                InfoQuestionForCreateDto infoQuestionForCreateDto = new InfoQuestionForCreateDto();
-                                infoQuestionForCreateDto.Text = questionText;
-                                Option option = new Option();
+                                string questionText = Console.ReadLine()!;   
                                 Question question = new Question();
-                             
+                                question.Text = questionText;
                                 for (int j = 0; j < 4; j++)
                                 {
+                                    Option option = new Option();
                                     Console.WriteLine($"pleae enter optionText {j + 1}:");
                                     string optionText = Console.ReadLine()!;
                                     option.Text = optionText;
-                                    option.QuestionId = question.Id;
+                                    question.Options.Add(option);
                                 }
-                                question.Options.Add( option );
+                                
                                 survey.Questions.Add( question );
                             }
                             surveyRepository.AddSurvey(survey);
