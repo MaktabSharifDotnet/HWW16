@@ -75,5 +75,10 @@ namespace HWW16.Services
             }
             _voteRepository.AddVotes(newVotes); 
         }
+
+        public List<Vote> GetVotes() 
+        {
+          return  _voteRepository.GetVotes();
+        }
     }
 }

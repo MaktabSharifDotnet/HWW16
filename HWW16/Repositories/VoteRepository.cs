@@ -1,5 +1,6 @@
 ﻿using HWW16.DataAccess;
-using HWW16.Entities; 
+using HWW16.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,15 @@ namespace HWW16.Repositories
                 _context.Votes.Add(vote);
             }
             _context.SaveChanges();
+        }
+
+        public List<Vote> GetVotes() 
+        {
+           return _context.Votes.Include(v => v.UserId)
+                .Include(v=>v.SurveyId)
+                .Include(v=>v.QuestionId)
+                .Include(v=>v.SelectedOptionId)
+                .ToList();  
         }
     }
 }

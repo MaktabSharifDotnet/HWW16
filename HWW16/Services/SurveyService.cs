@@ -114,7 +114,6 @@ namespace HWW16.Services
             return _surveyRepository.GetSurveys();
         }
        
-
         public Survey? GetSurveyForVoting(int surveyId)
         {
             
@@ -130,6 +129,9 @@ namespace HWW16.Services
             
             return survey;
         }
+
+      
+
     }
 
 }

@@ -5,6 +5,8 @@ using HWW16.Enums;
 using HWW16.Infra;
 using HWW16.Repositories;
 using HWW16.Services;
+using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 AppDbContext appDbContext = new AppDbContext();
 UserRepository userRepository = new UserRepository(appDbContext);
 UserService userService = new UserService(userRepository);
@@ -116,7 +118,7 @@ while (true)
 
                             break;
                         case 3:
-                            
+                         
                         case 4:
                             LocalStorage.Logout();
                             break;
@@ -291,4 +293,18 @@ void ParticipateInSurvey()
     Console.WriteLine("Press any key to return to the menu...");
     Console.ReadKey();
     Console.Clear();
+}
+
+void ShowResultSurvey()
+{
+
+   List<Vote> votes=voteService.GetVotes();
+
+   List<string> usernames= votes.GroupBy(v => v.User)
+        .Select(g => g.First().User.Username)
+        .ToList();
+    int TotalNumberOfParticipants = usernames.Count;
+
+        
+
 }
