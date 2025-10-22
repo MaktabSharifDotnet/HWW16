@@ -51,7 +51,9 @@ namespace HWW16.Services
             Survey survey = new Survey()
             {
                 Title = infoSurveyForCreateDto.Title,
-                Questions = new List<Question>()
+                Questions = new List<Question>(),
+                CreatorUserId = LocalStorage.LoginUser.Id,
+                
             };
 
             foreach (var infoQuestionForCreateDto in infoSurveyForCreateDto.Questions)

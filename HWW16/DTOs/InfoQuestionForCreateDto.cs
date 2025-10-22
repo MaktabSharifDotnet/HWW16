@@ -10,6 +10,6 @@ namespace HWW16.DTOs
     public class InfoQuestionForCreateDto
     {
         public string Text { get; set; }
-        public List<string> OptionTexts { get; set; }
+        public List<string> OptionTexts { get; set; } = [];
     }
 }

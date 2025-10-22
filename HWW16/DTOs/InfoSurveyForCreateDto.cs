@@ -10,7 +10,7 @@ namespace HWW16.DTOs
     public class InfoSurveyForCreateDto
     {
         public string Title { get; set; }
-        public List<InfoQuestionForCreateDto> Questions{ get; set; }
+        public List<InfoQuestionForCreateDto> Questions { get; set; } = [];
        
     }
 }
