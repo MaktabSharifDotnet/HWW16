@@ -16,18 +16,6 @@ namespace HWW16.Repositories
         {
             _context = context;
         }
-        public bool HasUserVotedInSurvey(int userId, int surveyId)
-        {  
-            return _context.Votes.Any(v => v.UserId == userId && v.SurveyId == surveyId);
-        }
-        public void AddVotes(List<Vote> votes)
-        {
-            foreach (var vote in votes) 
-            {
-             
-                _context.Votes.Add(vote);
-            }
-            _context.SaveChanges();
-        }
+   
     }
 }

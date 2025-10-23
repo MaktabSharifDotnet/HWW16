@@ -201,9 +201,7 @@ while (true)
                             Console.Clear();
                             break;
                         case 2:
-                            Console.WriteLine("--- Available Surveys ---");
-                            ShowSurveys();
-                            ParticipateInSurvey();
+                         
                             break;
                         case 0:
                             LocalStorage.Logout();
@@ -257,95 +255,3 @@ void ShowMenuNormalUser()
     Console.WriteLine("0. Logout");
 }
 
-void ParticipateInSurvey()
-{
-    Console.WriteLine("Type the desired survey ID.");
-    try
-    {
-        int surveyId = int.Parse(Console.ReadLine()!);
-        Survey? survey = surveyService.GetSurveyForVoting(surveyId);
-        List<AnswerDto> myAnswers = new List<AnswerDto>(); 
-
-        foreach (var question in survey.Questions)
-        {
-            Console.WriteLine($"\n--- Question: {question.Text} ---");
-
-            for (int i = 0; i < question.Options.Count; i++)
-            {
-                string optionText = question.Options[i].Text;
-                Console.WriteLine($"   {i + 1}. {optionText}");
-            }
-
-            int userChoice = 0;
-            Option selectedOption = null;
-
-           
-            while (selectedOption == null)
-            {
-                
-                Console.Write("Please enter your choice (1-4): ");
-                try
-                {
-                    userChoice = int.Parse(Console.ReadLine()!);
-                    if (userChoice >= 1 && userChoice <= question.Options.Count)
-                    {
-                        int selectedIndex = userChoice - 1;
-                        selectedOption = question.Options[selectedIndex]; 
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid input. Please enter a number between 1 and 4.");
-                        Console.ResetColor();
-                    }
-                }
-                catch (FormatException)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Invalid input. Please enter a number.");
-                    Console.ResetColor();
-                }
-            }
-
-            var answer = new AnswerDto
-            {
-                QuestionId = question.Id,
-                SelectedOptionId = selectedOption.Id,
-            };
-
-           
-            myAnswers.Add(answer);
-
-        }
-
-       
-        var voteInfo = new CastVoteDto
-        {
-            SurveyId = surveyId,
-            Answers = myAnswers 
-        };
-
-     
-        voteService.CastVote(voteInfo);
-
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine("\nYour vote was successfully registered!");
-        Console.ResetColor();
-    }
-    catch (FormatException)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("Invalid survey ID format.");
-        Console.ResetColor();
-    }
-    catch (Exception e)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(e.Message);
-        Console.ResetColor();
-    }
-
-    Console.WriteLine("Press any key to return to the menu...");
-    Console.ReadKey();
-    Console.Clear();
-}
