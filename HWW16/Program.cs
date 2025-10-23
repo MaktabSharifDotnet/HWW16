@@ -118,7 +118,9 @@ while (true)
 
                             break;
                         case 3:
-                         
+                            surveyService.GetResultSurvey(1);
+                            Console.ReadKey();
+                            break;
                         case 4:
                             LocalStorage.Logout();
                             break;
@@ -295,16 +297,4 @@ void ParticipateInSurvey()
     Console.Clear();
 }
 
-void ShowResultSurvey()
-{
 
-   List<Vote> votes=voteService.GetVotes();
-
-   List<string> usernames= votes.GroupBy(v => v.User)
-        .Select(g => g.First().User.Username)
-        .ToList();
-    int TotalNumberOfParticipants = usernames.Count;
-
-        
-
-}

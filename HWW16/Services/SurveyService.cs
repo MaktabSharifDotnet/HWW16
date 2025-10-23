@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HWW16.Services
 {
@@ -130,7 +131,45 @@ namespace HWW16.Services
             return survey;
         }
 
-      
+        public void GetResultSurvey(int surveyId) 
+        {
+            if (LocalStorage.LoginUser == null)
+            {
+                throw new Exception("User is not logged in.");
+            }
+            if (LocalStorage.LoginUser.Role != RoleEnum.Admin)
+            {
+                throw new Exception("Only Admin users can create surveys.");
+            }
+            Survey? survey= _surveyRepository.GetSurveyWithQuestionsWithOptions(surveyId);
+            if (survey==null)
+            {
+                throw new Exception("There is no survey with this ID.");
+            }
+
+            List<string> participantsUsername = survey.Votes.GroupBy(v=>v.User)
+                .Select(g=>g.First().User.Username)
+                .ToList();
+            int totalNumberOfParticipants = participantsUsername.Count();
+
+            //تعداد کل رای های  هر سوال رو پیدا کن 
+
+            foreach (var question in survey.Questions)
+            {
+                List<Vote> allVotesForQuestion=question.Votes.ToList();
+                int c = allVotesForQuestion.Count();
+
+                //تعداد رای هر گزینه سوال مورد نظر
+                foreach (var option in question.Options)
+                {
+                   int NumberOfVotesForEachQuestionOption = option.Votes.ToList().Count();
+                   double percent =((double)NumberOfVotesForEachQuestionOption / NumberOfVotesForEachQuestionOption) * 100;
+                   Console.WriteLine($"questionText:{question.Text} , optionText:{option.Text} , percent : {percent}");
+                }
+
+            }
+
+        }
 
     }
 

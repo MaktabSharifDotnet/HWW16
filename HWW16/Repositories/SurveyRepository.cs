@@ -50,7 +50,12 @@ namespace HWW16.Repositories
 
         public Survey? GetSurveyWithQuestionsWithOptions(int surveyId)
         {
-            return _context.Surveys.Include(s=>s.Questions).ThenInclude(q=>q.Options)
+            return _context.Surveys    
+                .Include(s=>s.CreatorUser)
+                .Include(s => s.Questions)
+                .ThenInclude(q=>q.Options)
+                .Include(q => q.Votes)
+                .ThenInclude(v=>v.User)
                 .FirstOrDefault(s=>s.Id==surveyId);
         }
 

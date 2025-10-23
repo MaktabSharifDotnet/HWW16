@@ -33,10 +33,7 @@ namespace HWW16.Repositories
 
         public List<Vote> GetVotes() 
         {
-           return _context.Votes.Include(v => v.UserId)
-                .Include(v=>v.SurveyId)
-                .Include(v=>v.QuestionId)
-                .Include(v=>v.SelectedOptionId)
+           return _context.Votes.Include(v => v.User)
                 .ToList();  
         }
     }
