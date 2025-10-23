@@ -131,7 +131,7 @@ namespace HWW16.Services
             return survey;
         }
 
-        public void GetResultSurvey(int surveyId)
+        public ResultSurveyDto GetResultSurvey(int surveyId)
         {
             if (LocalStorage.LoginUser == null)
             {
@@ -150,34 +150,32 @@ namespace HWW16.Services
             List<string> participantsUsername = survey.Votes.GroupBy(v => v.User)
                 .Select(g => g.First().User.Username)
                 .ToList();
-            int totalNumberOfParticipants = participantsUsername.Count();
-            foreach (var username in participantsUsername)
-            {
-                Console.WriteLine($"username : {username}");
-            }
-            //تعداد کل رای های  هر سوال رو پیدا کن 
+            ResultSurveyDto resultSurveyDto = new ResultSurveyDto();
+            resultSurveyDto.ParticipantsUsernames = participantsUsername;
+            resultSurveyDto.survey = survey;
 
             foreach (var question in survey.Questions)
             {
                 List<Vote> allVotesForQuestion = question.Votes.ToList();
-                int allVotesForQuestionCount = allVotesForQuestion.Count();
-                Console.WriteLine($"allVotesForQuestionCount:{allVotesForQuestionCount}");
-                //تعداد رای هر گزینه سوال مورد نظر
+                int allVotesForQuestionCount = allVotesForQuestion.Count();           
+
                 foreach (var option in question.Options)
                 {
                     int NumberOfVotesForThisQuestionOption = option.Votes.ToList().Count();
+                    
                     double percent=0d;
                     if (allVotesForQuestionCount > 0)
                     {
+                        
                         percent = ((double)NumberOfVotesForThisQuestionOption / allVotesForQuestionCount) * 100;
+                      
                     }
-                    double percent1= Math.Round(percent, 2);
-                    Console.WriteLine($"questionText:{question.Text} " +
-                        $", optionText:{option.Text} ,NumberOfVotesForThisQuestionOption:{NumberOfVotesForThisQuestionOption} , percent : {percent1}");
+
+                   
                 }
 
             }
-
+            return resultSurveyDto;
         }
 
     }

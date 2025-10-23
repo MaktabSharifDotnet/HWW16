@@ -102,8 +102,8 @@ while (true)
                             Console.WriteLine("please enter surveyId");
                             try
                             {
-                                int surveyId = int.Parse(Console.ReadLine()!);
-                                surveyService.DeleteSurvey(surveyId);
+                                int surveyIdForShow = int.Parse(Console.ReadLine()!);
+                                surveyService.DeleteSurvey(surveyIdForShow);
                                 Console.WriteLine("delete is done");
                             }
                             catch (FormatException)
@@ -118,8 +118,32 @@ while (true)
 
                             break;
                         case 3:
-                            surveyService.GetResultSurvey(1);
-                            Console.ReadKey();
+                            ShowSurveys();
+                            Console.WriteLine("please enter surveyID");
+                            int surveyId = int.Parse(Console.ReadLine()!);
+                            ResultSurveyDto resultSurveyDto = surveyService.GetResultSurvey(surveyId);
+                            int totalNumberOfParticipants = resultSurveyDto.ParticipantsUsernames.Count();
+                            foreach (var username in resultSurveyDto.ParticipantsUsernames)
+                            {
+                                Console.WriteLine($"username : {username}");
+                            }
+                            List<Vote> votes = resultSurveyDto.AllVotesForQuestion;
+                            int allVotesForQuestionCount = resultSurveyDto.AllVotesForQuestion.Count();
+                            Console.WriteLine($"allVotesForQuestionCount:{allVotesForQuestionCount}");
+                            double percent = resultSurveyDto.Percent;
+                            double percent1 = Math.Round(percent, 2);
+                            int numberOfVotesForThisQuestionOption = resultSurveyDto.NumberOfVotesForThisQuestionOption;
+
+                            foreach (var question in resultSurveyDto.survey.Questions)
+                            {
+                                foreach (var option1 in question.Options)
+                                {
+
+                                    Console.WriteLine($"questionText:{question.Text} " +
+                                        $", optionText:{option1.Text} ,NumberOfVotesForThisQuestionOption:{numberOfVotesForThisQuestionOption} , percent : {percent1}%");
+                                }
+
+                            }
                             break;
                         case 4:
                             LocalStorage.Logout();
@@ -211,7 +235,7 @@ void ParticipateInSurvey()
     {
         int surveyId = int.Parse(Console.ReadLine()!);
         Survey? survey = surveyService.GetSurveyForVoting(surveyId);
-        List<AnswerDto> myAnswers = new List<AnswerDto>(); 
+        List<AnswerDto> myAnswers = new List<AnswerDto>();
 
         foreach (var question in survey.Questions)
         {
@@ -226,10 +250,10 @@ void ParticipateInSurvey()
             int userChoice = 0;
             Option selectedOption = null;
 
-           
+
             while (selectedOption == null)
             {
-                
+
                 Console.Write("Please enter your choice (1-4): ");
                 try
                 {
@@ -237,7 +261,7 @@ void ParticipateInSurvey()
                     if (userChoice >= 1 && userChoice <= question.Options.Count)
                     {
                         int selectedIndex = userChoice - 1;
-                        selectedOption = question.Options[selectedIndex]; 
+                        selectedOption = question.Options[selectedIndex];
                     }
                     else
                     {
@@ -260,19 +284,19 @@ void ParticipateInSurvey()
                 SelectedOptionId = selectedOption.Id,
             };
 
-           
+
             myAnswers.Add(answer);
 
         }
 
-       
+
         var voteInfo = new CastVoteDto
         {
             SurveyId = surveyId,
-            Answers = myAnswers 
+            Answers = myAnswers
         };
 
-     
+
         voteService.CastVote(voteInfo);
 
         Console.ForegroundColor = ConsoleColor.Green;
