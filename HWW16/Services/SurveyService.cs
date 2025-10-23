@@ -150,32 +150,43 @@ namespace HWW16.Services
             List<string> participantsUsername = survey.Votes.GroupBy(v => v.User)
                 .Select(g => g.First().User.Username)
                 .ToList();
+            
             ResultSurveyDto resultSurveyDto = new ResultSurveyDto();
             resultSurveyDto.ParticipantsUsernames = participantsUsername;
-            resultSurveyDto.survey = survey;
+            resultSurveyDto.TotalNumberOfParticipants = participantsUsername.Count();
 
             foreach (var question in survey.Questions)
             {
                 List<Vote> allVotesForQuestion = question.Votes.ToList();
                 int allVotesForQuestionCount = allVotesForQuestion.Count();           
-
+                ResultQuestionDto resultQuestionDto = new ResultQuestionDto() 
+                {
+                   QuestionText = question.Text,
+                   AllVotesForQuestionCount=allVotesForQuestionCount,
+                };
                 foreach (var option in question.Options)
                 {
-                    int NumberOfVotesForThisQuestionOption = option.Votes.ToList().Count();
+                    int numberOfVotesForThisQuestionOption = option.Votes.ToList().Count();
                     
                     double percent=0d;
                     if (allVotesForQuestionCount > 0)
                     {
                         
-                        percent = ((double)NumberOfVotesForThisQuestionOption / allVotesForQuestionCount) * 100;
+                        percent = ((double)numberOfVotesForThisQuestionOption / allVotesForQuestionCount) * 100;
                       
                     }
-
-                   
+                    ResultOptionDto resultOptionDto = new ResultOptionDto() 
+                    {
+                       NumberOfVotesForThisQuestionOption=numberOfVotesForThisQuestionOption,
+                       Percent = percent
+                    };
+                    resultQuestionDto.ResultOptionsDto.Add(resultOptionDto);
                 }
-
+                 resultSurveyDto.ResultQuestionsDto.Add(resultQuestionDto);
+          
             }
             return resultSurveyDto;
+           
         }
 
     }

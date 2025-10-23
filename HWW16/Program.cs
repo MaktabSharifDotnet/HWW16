@@ -121,26 +121,25 @@ while (true)
                             ShowSurveys();
                             Console.WriteLine("please enter surveyID");
                             int surveyId = int.Parse(Console.ReadLine()!);
-                            ResultSurveyDto resultSurveyDto = surveyService.GetResultSurvey(surveyId);
-                            int totalNumberOfParticipants = resultSurveyDto.ParticipantsUsernames.Count();
+                            ResultSurveyDto resultSurveyDto=surveyService.GetResultSurvey(surveyId);
+                            Console.WriteLine($"Total number of participants :{resultSurveyDto.TotalNumberOfParticipants}");
+                            Console.WriteLine("Names of participants:");
                             foreach (var username in resultSurveyDto.ParticipantsUsernames)
                             {
                                 Console.WriteLine($"username : {username}");
+                                Console.WriteLine("--------------------------------");
                             }
-                            List<Vote> votes = resultSurveyDto.AllVotesForQuestion;
-                            int allVotesForQuestionCount = resultSurveyDto.AllVotesForQuestion.Count();
-                            Console.WriteLine($"allVotesForQuestionCount:{allVotesForQuestionCount}");
-                            double percent = resultSurveyDto.Percent;
-                            double percent1 = Math.Round(percent, 2);
-                            int numberOfVotesForThisQuestionOption = resultSurveyDto.NumberOfVotesForThisQuestionOption;
-
-                            foreach (var question in resultSurveyDto.survey.Questions)
+                            foreach (var questionDto in resultSurveyDto.ResultQuestionsDto)
                             {
-                                foreach (var option1 in question.Options)
+                                Console.WriteLine($"questionText:{questionDto.QuestionText}");
+                                Console.WriteLine($"Total number of votes for this question :{questionDto.AllVotesForQuestionCount}");
+                                Console.WriteLine("--------------------------------");
+                                foreach (var optionDto in questionDto.ResultOptionsDto)
                                 {
-
-                                    Console.WriteLine($"questionText:{question.Text} " +
-                                        $", optionText:{option1.Text} ,NumberOfVotesForThisQuestionOption:{numberOfVotesForThisQuestionOption} , percent : {percent1}%");
+                                    Console.WriteLine($"NumberOfVotesForThisQuestionOption : {optionDto.NumberOfVotesForThisQuestionOption}");
+                                    double percent = Math.Round(optionDto.Percent, 2);
+                                    Console.WriteLine($"percent:{percent}%");
+                                    Console.WriteLine("--------------------------------");
                                 }
 
                             }
