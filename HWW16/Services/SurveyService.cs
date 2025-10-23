@@ -96,42 +96,42 @@ namespace HWW16.Services
             {
                 throw new Exception("There is no Survey with this ID.");
             }
-           
-            if (surveyDb.Votes.Any()) 
+
+            if (surveyDb.Votes.Any())
             {
-              
+
                 _surveyRepository.Delete(surveyDb);
-                
+
             }
             else
             {
-               
-                throw new Exception("Cannot delete survey because no one has voted yet."); 
+
+                throw new Exception("Cannot delete survey because no one has voted yet.");
             }
-            
+
         }
         public List<Survey> GetSurveys()
         {
             return _surveyRepository.GetSurveys();
         }
-       
+
         public Survey? GetSurveyForVoting(int surveyId)
         {
-            
+
             var survey = _surveyRepository.GetSurveyWithQuestionsWithOptions(surveyId);
 
-     
+
             if (survey == null)
             {
-               
+
                 throw new Exception($"Survey with ID {surveyId} not found.");
             }
 
-            
+
             return survey;
         }
 
-        public void GetResultSurvey(int surveyId) 
+        public void GetResultSurvey(int surveyId)
         {
             if (LocalStorage.LoginUser == null)
             {
@@ -141,30 +141,39 @@ namespace HWW16.Services
             {
                 throw new Exception("Only Admin users can create surveys.");
             }
-            Survey? survey= _surveyRepository.GetSurveyWithQuestionsWithOptions(surveyId);
-            if (survey==null)
+            Survey? survey = _surveyRepository.GetSurveyWithQuestionsWithOptions(surveyId);
+            if (survey == null)
             {
                 throw new Exception("There is no survey with this ID.");
             }
 
-            List<string> participantsUsername = survey.Votes.GroupBy(v=>v.User)
-                .Select(g=>g.First().User.Username)
+            List<string> participantsUsername = survey.Votes.GroupBy(v => v.User)
+                .Select(g => g.First().User.Username)
                 .ToList();
             int totalNumberOfParticipants = participantsUsername.Count();
-
+            foreach (var username in participantsUsername)
+            {
+                Console.WriteLine($"username : {username}");
+            }
             //تعداد کل رای های  هر سوال رو پیدا کن 
 
             foreach (var question in survey.Questions)
             {
-                List<Vote> allVotesForQuestion=question.Votes.ToList();
-                int c = allVotesForQuestion.Count();
-
+                List<Vote> allVotesForQuestion = question.Votes.ToList();
+                int allVotesForQuestionCount = allVotesForQuestion.Count();
+                Console.WriteLine($"allVotesForQuestionCount:{allVotesForQuestionCount}");
                 //تعداد رای هر گزینه سوال مورد نظر
                 foreach (var option in question.Options)
                 {
-                   int NumberOfVotesForEachQuestionOption = option.Votes.ToList().Count();
-                   double percent =((double)NumberOfVotesForEachQuestionOption / NumberOfVotesForEachQuestionOption) * 100;
-                   Console.WriteLine($"questionText:{question.Text} , optionText:{option.Text} , percent : {percent}");
+                    int NumberOfVotesForThisQuestionOption = option.Votes.ToList().Count();
+                    double percent=0d;
+                    if (allVotesForQuestionCount > 0)
+                    {
+                        percent = ((double)NumberOfVotesForThisQuestionOption / allVotesForQuestionCount) * 100;
+                    }
+                    double percent1= Math.Round(percent, 2);
+                    Console.WriteLine($"questionText:{question.Text} " +
+                        $", optionText:{option.Text} ,NumberOfVotesForThisQuestionOption:{NumberOfVotesForThisQuestionOption} , percent : {percent1}");
                 }
 
             }
